@@ -2,36 +2,58 @@ import { ValidationChain, body } from 'express-validator';
 import { Priority } from '../enums/Priority';
 import { Status } from '../enums/Status';
 
-export const createvalidator: ValidationChain[] = [
-  body('tittle')
+export const createValidator: ValidationChain[] = [
+  body('title')
     .not()
     .isEmpty()
-    .withMessage('the taks title mandatory')
+    .withMessage('The task title mandatory')
     .trim()
     .isString()
-    .withMessage('title needs to be in text format'),
-  body('description')
-    .trim()
-    .isString()
-    .withMessage('description needs to be in text format'),
+    .withMessage('Title needs to be in text format'),
   body('date')
     .not()
     .isEmpty()
-    .withMessage('the task date is Mandatory')
+    .withMessage('The task date is mandatory')
     .isString()
-    .withMessage('the task date should be in valid format'),
+    .withMessage(
+      'The date needs to be a valid date format',
+    ),
+  body('description')
+    .trim()
+    .isString()
+    .withMessage('Description needs to be in text format'),
   body('priority')
     .trim()
-    .isIn([Priority.low, Priority.normal, Priority.high])
-    .withMessage('Priority can only be normal, low & high'),
+    .isIn([Priority.normal, Priority.high, Priority.low])
+    .withMessage('Priority can only be normal,high or low'),
   body('status')
     .trim()
     .isIn([
-      Status.completed,
-      Status.inProgress,
       Status.todo,
+      Status.inProgress,
+      Status.completed,
     ])
     .withMessage(
-      'Status can only be todo, InProgres & Completed',
+      'Status can only be todo,inProgress or completed',
+    ),
+];
+
+export const updateValidator: ValidationChain[] = [
+  body('id')
+    .not()
+    .isEmpty()
+    .withMessage('The task id is mandatory')
+    .trim()
+    .isString()
+    .withMessage('ID needs to be a valid uuid format'),
+  body('status')
+    .trim()
+    .isIn([
+      Status.todo,
+      Status.inProgress,
+      Status.completed,
+    ])
+    .withMessage(
+      'Status can only be todo,inProgress or completed',
     ),
 ];

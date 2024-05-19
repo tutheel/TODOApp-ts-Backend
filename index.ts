@@ -1,23 +1,21 @@
 import express, { Express } from 'express';
-import dotenv from 'dotenv';
-import { DataSource } from 'typeorm';
-import cors from 'cors';
 
-import bodyParser from 'body-parser';
+import { DataSource } from 'typeorm';
 import { Task } from './src/tasks/task.entity';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import dotenv from 'dotenv';
 import { tasksRouter } from './src/tasks/task.router';
 
 //instantiate express app
 const app: Express = express();
-
-//use cors
-app.use(cors());
-
 dotenv.config();
-// console.log(process.env); // Debugging ke liye yeh line add karein
 
 //parse request body
 app.use(bodyParser.json());
+
+//use cors
+app.use(cors());
 
 //Create Database Connection
 export const AppDataSource = new DataSource({
